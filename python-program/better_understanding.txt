@@ -1,0 +1,69 @@
+Link : https://realpython.com/primer-on-python-decorators/
+
+=> First-Class Objects:
+In Python, functions are first-class objects. This means that functions can be passed around and used as arguments, just like any other object (string, int, float, list, and so on). Consider the following three functions:
+
+def say_hello(name):
+    return f"Hello {name}"
+
+def be_awesome(name):
+    return f"Yo {name}, together we are the awesomest!"
+
+def greet_bob(greeter_func):
+    return greeter_func("Bob")
+
+>>> greet_bob(say_hello)
+'Hello Bob'
+
+>>> greet_bob(be_awesome)
+'Yo Bob, together we are the awesomest!'
+
+=> Inner Functions:
+It’s possible to define functions inside other functions.
+
+def parent():
+    print("Printing from the parent() function")
+
+    def first_child():
+        print("Printing from the first_child() function")
+
+    def second_child():
+        print("Printing from the second_child() function")
+
+    second_child()
+    first_child()
+
+=> Returning Functions From Functions:
+def parent(num):
+    def first_child():
+        return "Hi, I am Emma"
+
+    def second_child():
+        return "Call me Liam"
+
+    if num == 1:
+        return first_child
+
+returning a reference to the function first_child
+
+=> Decorator func: decorators wrap a function, modifying its behavior. put @decorator over func() to be decorator
+def my_decorator_with_arg(func):
+    def wrapper(*args, **kwargs):
+        print("Something is happening before the function is called.")
+        func(*args, **kwargs)
+        print("Something is happening after the function is called.")
+    return wrapper
+
+@my_decorator_with_arg
+def say_whee(arg,kwargs):
+    print("Whee! ",arg, kwargs)
+
+dict_data = {'1':'Monday', '2':'Sunday', '3':'Tuesday'}
+say_whee("I am in this world !!!", dict_data)
+
+Returning Values From Decorated Functions:
+def do_twice(func):
+    def wrapper_do_twice(*args, **kwargs):
+        func(*args, **kwargs)
+        return func(*args, **kwargs)
+    return wrapper_do_twice
