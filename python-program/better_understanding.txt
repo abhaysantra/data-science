@@ -1,4 +1,5 @@
 Link : https://realpython.com/primer-on-python-decorators/
+# corey schafer: https://www.youtube.com/watch?v=KlBPCzcQNU8&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=38
 
 => First-Class Objects:
 In Python, functions are first-class objects. This means that functions can be passed around and used as arguments, just like any other object (string, int, float, list, and so on). Consider the following three functions:
