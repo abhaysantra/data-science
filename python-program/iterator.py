@@ -1,3 +1,6 @@
+# advantage of iterator: An iterator in python saves resources. To get all the elements, only one element is 
+#stored in the memory at a time. Unlike this, a list would have to store all the values at once.
+# Iterator Vs Generator: To define Iterator need class but Generator only regular method with special yield keyword.
 #https://www.youtube.com/watch?v=jTYiNjvnHZY
 # list is iterable but not iterator. iterator has next() to get next element
 # list tuple dictionary, file etc are iterable
@@ -23,7 +26,7 @@ while True:
 	except StopIteration:
 		break
 
-# practice iterator
+# By iterator
 class MyRange:
 
     def __init__(self, start, end):
@@ -40,16 +43,20 @@ class MyRange:
         self.value += 1
         return current
 
+nums = MyRange(1,10)
+for num in nums:
+	print('By iterator : ',num)
 
-def my_range(start):
+# By Generator
+def my_range(start,end):
     current = start
-    while True:
+    while current < end:
         yield current
         current += 1
 
 
-nums = my_range(1)
+nums = my_range(1,10)
 
 for num in nums:
-    print(num)
+    print('By Generator : ',num)
 

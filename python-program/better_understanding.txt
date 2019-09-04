@@ -1,4 +1,5 @@
 Link : https://realpython.com/primer-on-python-decorators/
+#https://data-flair.training/blogs/python-generator-vs-iterator/
 # corey schafer: https://www.youtube.com/watch?v=KlBPCzcQNU8&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=38
 
 => First-Class Objects:
@@ -68,3 +69,105 @@ def do_twice(func):
         func(*args, **kwargs)
         return func(*args, **kwargs)
     return wrapper_do_twice
+
+=> Iterator : is an object which you can iterate upon and return an object at a time.
+it is implemented using iter() and next()
+
+even=[2,4,6,8,10] is a list which is iterable not iterator. 
+to make it iterator, lets apply: even_iterator = iter(even) =>execute: <list_iterator object at 0x05E35410>
+
+Remember, it does not have to be only a list you create an iterator on. We can make list, tupe, dictionary as iterator. iter((1,3,2)) => tuple: execute: <tuple_iterator object at 0x05E35550>
+To access the first element: next(even_iterator) this will continue until StopIterator exeption comes.
+
+# for loop in python iterator
+for i in 'Python':
+    print(i)
+# this is actually done by:
+iter_obj=iter('Python')
+while True:
+    try:
+        i=next(iter_obj)
+        print(i)
+    except StopIteration:
+        break
+# Creating own iterator:
+# By iterator
+class MyRange:
+
+    def __init__(self, start, end):
+        self.value = start
+        self.end = end
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.value >= self.end:
+            raise StopIteration
+        current = self.value
+        self.value += 1
+        return current
+
+nums = MyRange(1,10)
+for num in nums:
+	print('By iterator : ',num)
+
+# By Generator
+def my_range(start,end):
+    current = start
+    while current < end:
+        yield current
+        current += 1
+
+nums = my_range(1,10)
+
+for num in nums:
+    print('By Generator : ',num)
+
+# Infinite Iterator
+>>> class Even:
+                def __iter__(self):
+                                self.num=2
+                                return self
+                def __next__(self):
+                                num=self.num
+                                self.num+=2
+                                return num             
+>>> e=Even()
+>>> i=iter(e)
+>>> next(i)
+Benefits of Python Iterator: An iterator in python saves resources. To get all the elements, only one element is stored in the memory at a time. Unlike this, a list would have to store all the values at once.
+
+Iterator Vs Generator: To define Iterator need class but Generator only regular method with special yield keyword.
+# link : https://data-flair.training/blogs/python-generator/
+Python Generator vs Function: Function has return : when reaches stop executing that func and go to next statement after that function call.
+Generator has yield: when reaches it yields the value to the iterable. Finally, it gets back to the generator to continue for the next value until StopIteration exception occurs. Holds only one value at a time. List> all values.
+
+Python Generator Expressions : mylist=[1,3,6,10] => a= (x**2 for x in mylist) => <generator object <genexpr> at 0x003CC330> next(a) => 1, next(a)=>3..until StopIteration=>REMEMBER here a= () so this is generator if a=[] then list
+
+Let’s see the difference between Iterators and Generators in python.
+1.In creating a python generator, we use a function with yeild. But in creating an iterator in python, we use class the iter() and next() functions.
+A generator may have any number of ‘yield’ statements.
+2.Python generator saves the states of the local variables every time ‘yield’ pauses the loop in python. An iterator does not make use of local variables, all it needs is iterable to iterate on
+3.Generator in python let us write fast and compact code. This is an advantage over Python iterators. They are also simpler to code than do custom iterator.
+
+4. Python iterator is more memory-efficient. Lest see this with example below:
+>>> def func():
+       i=1
+       while i>0:
+                 yield i
+                 i-=1
+>>> for i in func():
+             print(i)
+    func().__sizeof__() => 32 bit
+    iter([1,2]).__sizeof__() => 16 bit
+
+
+===> Closure function
+>>> def outerfunc(x):
+                def innerfunc():
+                                print(x)
+                return innerfunc #Return the object instead of calling the function
+>>> myfunc=outerfunc(7)
+>>> myfunc()
+
